@@ -1,159 +1,372 @@
-export function toNum(value, fallback = 0) {
-  const n = Number(value)
-  return Number.isFinite(n) ? n : fallback
+import { useMemo, useState, useEffect } from 'react'
+import { calculateSolarSystem } from './utils/solarCalculations'
+import { exportProjectPdf } from './utils/pdfReport'
+import { loadProjects, saveCurrentProject, deleteProject } from './utils/storage'
+import './index.css'
+
+const defaultLoads = [
+  { name: 'لامپ LED', qty: 6, power: 12, hours: 6, surgeFactor: 1, type: 'AC' },
+  { name: 'تلویزیون', qty: 1, power: 120, hours: 5, surgeFactor: 1.2, type: 'AC' },
+  { name: 'یخچال', qty: 1, power: 180, hours: 10, surgeFactor: 3, type: 'AC' },
+]
+
+const defaultSettings = {
+  sunHours: 5.5,
+  systemEfficiency: 0.8,
+  simultaneityFactor: 0.8,
+  safetyFactor: 1.25,
+  autonomyDays: 1,
+  dod: 0.8,
+  systemVoltage: 24,
+  panelPower: 550,
+  batteryVoltage: 12,
+  controllerSafetyFactor: 1.25,
 }
 
-export function round(value, digits = 2) {
-  const factor = 10 ** digits
-  return Math.round((value + Number.EPSILON) * factor) / factor
+const defaultProjectInfo = {
+  projectName: '',
+  projectCode: '',
+  customerName: '',
+  location: '',
+  reportDate: new Date().toISOString().slice(0, 10),
+  preparedBy: 'Mohamad Saremi',
 }
 
-export function calculateSolarSystem({
-  loads = [],
-  settings = {},
-}) {
-  const safeLoads = Array.isArray(loads) ? loads : []
+function uid() {
+  return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
+}
 
-  const {
-    sunHours = 5.5,
-    systemEfficiency = 0.8,
-    simultaneityFactor = 0.8,
-    safetyFactor = 1.25,
-    autonomyDays = 1,
-    dod = 0.8,
-    systemVoltage = 24,
-    panelPower = 550,
-    batteryVoltage = 12,
-    controllerSafetyFactor = 1.25,
-  } = settings
-
-  let totalPower = 0
-  let dailyEnergyWh = 0
-  let totalSurgePower = 0
-
-  const normalizedLoads = safeLoads.map((item, index) => {
-    const name = item.name?.trim() || `بار ${index + 1}`
-    const qty = Math.max(0, toNum(item.qty, 0))
-    const power = Math.max(0, toNum(item.power, 0))
-    const hours = Math.max(0, toNum(item.hours, 0))
-    const surgeFactor = Math.max(1, toNum(item.surgeFactor, 1))
-    const type = item.type || 'AC'
-
-    const itemPower = qty * power
-    const itemDailyEnergy = itemPower * hours
-    const itemSurge = itemPower * surgeFactor
-
-    totalPower += itemPower
-    dailyEnergyWh += itemDailyEnergy
-    totalSurgePower += itemSurge
-
-    return {
-      name,
-      qty,
-      power,
-      hours,
-      surgeFactor,
-      type,
-      itemPower: round(itemPower),
-      itemDailyEnergy: round(itemDailyEnergy),
-      itemSurge: round(itemSurge),
-    }
-  })
-
-  const coincidentPower = totalPower * toNum(simultaneityFactor, 0.8)
-  const inverterRecommendedPower = Math.max(
-    coincidentPower * toNum(safetyFactor, 1.25),
-    totalSurgePower
+function NumberInput({ label, value, onChange, step = 'any' }) {
+  return (
+    <label className="field">
+      <span>{label}</span>
+      <input
+        type="number"
+        step={step}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      />
+    </label>
   )
+}
 
-  const requiredPVPower =
-    dailyEnergyWh / Math.max(toNum(sunHours, 5.5) * toNum(systemEfficiency, 0.8), 0.01)
+export default function App() {
+  const [projectInfo, setProjectInfo] = useState(defaultProjectInfo)
+  const [loads, setLoads] = useState(defaultLoads)
+  const [settings, setSettings] = useState(defaultSettings)
+  const [savedProjects, setSavedProjects] = useState([])
+  const [currentProjectId, setCurrentProjectId] = useState(uid())
 
-  const panelCount = Math.max(
-    1,
-    Math.ceil(requiredPVPower / Math.max(toNum(panelPower, 550), 1))
-  )
+  useEffect(() => {
+    setSavedProjects(loadProjects())
+  }, [])
 
-  const totalPanelPower = panelCount * toNum(panelPower, 550)
+  const result = useMemo(() => {
+    return calculateSolarSystem({ loads, settings })
+  }, [loads, settings])
 
-  const batteryEnergyWh = dailyEnergyWh * Math.max(toNum(autonomyDays, 1), 1)
-
-  const requiredBatteryAh =
-    batteryEnergyWh /
-    Math.max(
-      toNum(systemVoltage, 24) * Math.max(toNum(dod, 0.8), 0.01),
-      0.01
+  const updateLoad = (index, key, value) => {
+    setLoads((prev) =>
+      prev.map((item, i) =>
+        i === index ? { ...item, [key]: value } : item
+      )
     )
+  }
 
-  const controllerCurrent =
-    totalPanelPower / Math.max(toNum(systemVoltage, 24), 1)
+  const addLoad = () => {
+    setLoads((prev) => [
+      ...prev,
+      { name: '', qty: 1, power: 0, hours: 0, surgeFactor: 1, type: 'AC' },
+    ])
+  }
 
-  const controllerRecommendedCurrent =
-    controllerCurrent * Math.max(toNum(controllerSafetyFactor, 1.25), 1)
+  const removeLoad = (index) => {
+    setLoads((prev) => prev.filter((_, i) => i !== index))
+  }
 
-  const batteriesInSeries = Math.max(
-    1,
-    Math.ceil(toNum(systemVoltage, 24) / Math.max(toNum(batteryVoltage, 12), 1))
+  const handleSaveProject = () => {
+    const project = {
+      id: currentProjectId,
+      projectInfo,
+      loads,
+      settings,
+      createdAt: new Date().toISOString(),
+    }
+
+    const updated = saveCurrentProject(project)
+    setSavedProjects(updated)
+    alert('پروژه ذخیره شد.')
+  }
+
+  const handleLoadProject = (project) => {
+    setCurrentProjectId(project.id)
+    setProjectInfo(project.projectInfo)
+    setLoads(project.loads)
+    setSettings(project.settings)
+  }
+
+  const handleDeleteProject = (projectId) => {
+    const updated = deleteProject(projectId)
+    setSavedProjects(updated)
+  }
+
+  const handleNewProject = () => {
+    setCurrentProjectId(uid())
+    setProjectInfo(defaultProjectInfo)
+    setLoads(defaultLoads)
+    setSettings(defaultSettings)
+  }
+
+  const handlePdf = () => {
+    exportProjectPdf({
+      projectInfo,
+      result,
+      loads: result.loads,
+    })
+  }
+
+  return (
+    <div className="app-shell">
+      <div className="page-watermark" />
+
+      <header className="topbar">
+        <div>
+          <h1>محاسبه و سایزینگ سیستم خورشیدی</h1>
+          <p>نسخه حرفه‌ای با ذخیره پروژه، گزارش PDF و محاسبات مهندسی</p>
+        </div>
+
+        <div className="topbar-actions">
+          <button className="primary-btn" onClick={handleSaveProject}>ذخیره پروژه</button>
+          <button className="secondary-btn" onClick={handlePdf}>دانلود PDF</button>
+          <button className="secondary-btn" onClick={handleNewProject}>پروژه جدید</button>
+        </div>
+      </header>
+
+      <main className="layout">
+        <section className="panel">
+          <h2>اطلاعات پروژه</h2>
+
+          <div className="grid-2">
+            <label className="field">
+              <span>نام پروژه</span>
+              <input
+                value={projectInfo.projectName}
+                onChange={(e) => setProjectInfo((s) => ({ ...s, projectName: e.target.value }))}
+              />
+            </label>
+
+            <label className="field">
+              <span>کد پروژه</span>
+              <input
+                value={projectInfo.projectCode}
+                onChange={(e) => setProjectInfo((s) => ({ ...s, projectCode: e.target.value }))}
+              />
+            </label>
+
+            <label className="field">
+              <span>نام مشتری</span>
+              <input
+                value={projectInfo.customerName}
+                onChange={(e) => setProjectInfo((s) => ({ ...s, customerName: e.target.value }))}
+              />
+            </label>
+
+            <label className="field">
+              <span>محل اجرا</span>
+              <input
+                value={projectInfo.location}
+                onChange={(e) => setProjectInfo((s) => ({ ...s, location: e.target.value }))}
+              />
+            </label>
+
+            <label className="field">
+              <span>تاریخ گزارش</span>
+              <input
+                type="date"
+                value={projectInfo.reportDate}
+                onChange={(e) => setProjectInfo((s) => ({ ...s, reportDate: e.target.value }))}
+              />
+            </label>
+
+            <label className="field">
+              <span>تهیه‌کننده</span>
+              <input
+                value={projectInfo.preparedBy}
+                onChange={(e) => setProjectInfo((s) => ({ ...s, preparedBy: e.target.value }))}
+              />
+            </label>
+          </div>
+        </section>
+
+        <section className="panel">
+          <h2>لیست بارهای مصرفی</h2>
+
+          <div className="loads-table">
+            <div className="loads-head">
+              <span>نام تجهیز</span>
+              <span>تعداد</span>
+              <span>توان (وات)</span>
+              <span>ساعت/روز</span>
+              <span>ضریب راه‌اندازی</span>
+              <span>نوع</span>
+              <span>عملیات</span>
+            </div>
+
+            {loads.map((load, index) => (
+              <div className="loads-row" key={index}>
+                <input
+                  value={load.name}
+                  onChange={(e) => updateLoad(index, 'name', e.target.value)}
+                  placeholder="مثلاً یخچال"
+                />
+
+                <input
+                  type="number"
+                  value={load.qty}
+                  onChange={(e) => updateLoad(index, 'qty', e.target.value)}
+                />
+
+                <input
+                  type="number"
+                  value={load.power}
+                  onChange={(e) => updateLoad(index, 'power', e.target.value)}
+                />
+
+                <input
+                  type="number"
+                  value={load.hours}
+                  onChange={(e) => updateLoad(index, 'hours', e.target.value)}
+                />
+
+                <input
+                  type="number"
+                  step="0.1"
+                  value={load.surgeFactor}
+                  onChange={(e) => updateLoad(index, 'surgeFactor', e.target.value)}
+                />
+
+                <select
+                  value={load.type}
+                  onChange={(e) => updateLoad(index, 'type', e.target.value)}
+                >
+                  <option value="AC">AC</option>
+                  <option value="DC">DC</option>
+                </select>
+
+                <button className="danger-btn" onClick={() => removeLoad(index)}>
+                  حذف
+                </button>
+              </div>
+            ))}
+          </div>
+
+          <button className="primary-btn" onClick={addLoad}>
+            افزودن بار جدید
+          </button>
+        </section>
+
+        <section className="panel">
+          <h2>تنظیمات طراحی</h2>
+
+          <div className="grid-2">
+            <NumberInput label="ساعات آفتابی مفید" value={settings.sunHours} onChange={(v) => setSettings((s) => ({ ...s, sunHours: v }))} />
+            <NumberInput label="راندمان کل سیستم" value={settings.systemEfficiency} onChange={(v) => setSettings((s) => ({ ...s, systemEfficiency: v }))} step="0.01" />
+            <NumberInput label="ضریب همزمانی" value={settings.simultaneityFactor} onChange={(v) => setSettings((s) => ({ ...s, simultaneityFactor: v }))} step="0.01" />
+            <NumberInput label="ضریب اطمینان" value={settings.safetyFactor} onChange={(v) => setSettings((s) => ({ ...s, safetyFactor: v }))} step="0.01" />
+            <NumberInput label="روزهای بکاپ" value={settings.autonomyDays} onChange={(v) => setSettings((s) => ({ ...s, autonomyDays: v }))} />
+            <NumberInput label="DOD باتری" value={settings.dod} onChange={(v) => setSettings((s) => ({ ...s, dod: v }))} step="0.01" />
+            <NumberInput label="ولتاژ سیستم" value={settings.systemVoltage} onChange={(v) => setSettings((s) => ({ ...s, systemVoltage: v }))} />
+            <NumberInput label="توان هر پنل (وات)" value={settings.panelPower} onChange={(v) => setSettings((s) => ({ ...s, panelPower: v }))} />
+            <NumberInput label="ولتاژ هر باتری" value={settings.batteryVoltage} onChange={(v) => setSettings((s) => ({ ...s, batteryVoltage: v }))} />
+            <NumberInput label="ضریب اطمینان کنترلر" value={settings.controllerSafetyFactor} onChange={(v) => setSettings((s) => ({ ...s, controllerSafetyFactor: v }))} step="0.01" />
+          </div>
+        </section>
+
+        <section className="panel">
+          <h2>خلاصه نتایج</h2>
+
+          <div className="result-grid">
+            <div className="result-box"><strong>{result.summary.totalPower}</strong><span>توان کل مصرفی (وات)</span></div>
+            <div className="result-box"><strong>{result.summary.dailyEnergyWh}</strong><span>انرژی روزانه (وات‌ساعت)</span></div>
+            <div className="result-box"><strong>{result.summary.dailyEnergyKWh}</strong><span>انرژی روزانه (کیلووات‌ساعت)</span></div>
+            <div className="result-box"><strong>{result.summary.coincidentPower}</strong><span>توان همزمان (وات)</span></div>
+            <div className="result-box"><strong>{result.summary.totalSurgePower}</strong><span>توان راه‌اندازی (وات)</span></div>
+          </div>
+        </section>
+
+        <section className="panel">
+          <h2>تجهیزات پیشنهادی</h2>
+
+          <div className="result-grid">
+            <div className="result-box highlight"><strong>{result.recommendations.inverterPowerW}</strong><span>اینورتر پیشنهادی (وات)</span></div>
+            <div className="result-box highlight"><strong>{result.recommendations.panelCount}</strong><span>تعداد پنل پیشنهادی</span></div>
+            <div className="result-box highlight"><strong>{result.recommendations.totalPanelPowerW}</strong><span>توان کل پنل‌ها (وات)</span></div>
+            <div className="result-box highlight"><strong>{result.recommendations.batteryCapacityAh}</strong><span>ظرفیت باتری موردنیاز (Ah)</span></div>
+            <div className="result-box highlight"><strong>{result.recommendations.batteriesInSeries}</strong><span>تعداد باتری در سری</span></div>
+            <div className="result-box highlight"><strong>{result.recommendations.controllerRecommendedCurrentA}</strong><span>کنترلر پیشنهادی (آمپر)</span></div>
+          </div>
+        </section>
+
+        <section className="panel">
+          <h2>جزئیات بارها</h2>
+
+          <div className="detail-table">
+            <div className="detail-head">
+              <span>نام</span>
+              <span>توان کل</span>
+              <span>انرژی روزانه</span>
+              <span>توان راه‌اندازی</span>
+            </div>
+
+            {result.loads.map((item, index) => (
+              <div className="detail-row" key={index}>
+                <span>{item.name}</span>
+                <span>{item.itemPower} W</span>
+                <span>{item.itemDailyEnergy} Wh</span>
+                <span>{item.itemSurge} W</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="panel">
+          <h2>پروژه‌های ذخیره‌شده</h2>
+
+          {savedProjects.length === 0 ? (
+            <div className="ok-box">هنوز پروژه‌ای ذخیره نشده است.</div>
+          ) : (
+            <div className="saved-list">
+              {savedProjects.map((project) => (
+                <div className="saved-card" key={project.id}>
+                  <div>
+                    <strong>{project.projectInfo.projectName || 'بدون نام'}</strong>
+                    <p>{project.projectInfo.customerName || '-'}</p>
+                  </div>
+
+                  <div className="saved-actions">
+                    <button className="secondary-btn" onClick={() => handleLoadProject(project)}>بارگذاری</button>
+                    <button className="danger-btn" onClick={() => handleDeleteProject(project.id)}>حذف</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+
+        <section className="panel">
+          <h2>هشدارها و نکات فنی</h2>
+
+          {result.warnings.length === 0 ? (
+            <div className="ok-box">هشدار خاصی وجود ندارد.</div>
+          ) : (
+            <ul className="warning-list">
+              {result.warnings.map((warning, index) => (
+                <li key={index}>{warning}</li>
+              ))}
+            </ul>
+          )}
+        </section>
+      </main>
+    </div>
   )
-
-  const warnings = []
-
-  if (dailyEnergyWh <= 0) {
-    warnings.push('انرژی روزانه صفر یا نامعتبر است.')
-  }
-
-  if (sunHours < 3) {
-    warnings.push('ساعات آفتابی واردشده کم است؛ تعداد پنل ممکن است زیاد شود.')
-  }
-
-  if (systemEfficiency < 0.65) {
-    warnings.push('راندمان سیستم پایین در نظر گرفته شده است.')
-  }
-
-  if (dod > 0.9) {
-    warnings.push('مقدار DOD خیلی زیاد است و می‌تواند عمر باتری را کم کند.')
-  }
-
-  if (coincidentPower > inverterRecommendedPower * 0.95) {
-    warnings.push('اینورتر نزدیک به مرز کاری انتخاب شده است.')
-  }
-
-  if (controllerRecommendedCurrent > 100) {
-    warnings.push('جریان کنترلر بالاست؛ احتمالاً باید از چند MPPT یا ولتاژ سیستم بالاتر استفاده شود.')
-  }
-
-  if (systemVoltage === 12 && totalPower > 1500) {
-    warnings.push('برای این توان، سیستم 12 ولت مناسب نیست؛ 24 یا 48 ولت پیشنهاد می‌شود.')
-  }
-
-  if (systemVoltage === 24 && totalPower > 4000) {
-    warnings.push('برای این توان، سیستم 48 ولت پیشنهاد می‌شود.')
-  }
-
-  return {
-    loads: normalizedLoads,
-    summary: {
-      totalPower: round(totalPower),
-      dailyEnergyWh: round(dailyEnergyWh),
-      dailyEnergyKWh: round(dailyEnergyWh / 1000),
-      coincidentPower: round(coincidentPower),
-      totalSurgePower: round(totalSurgePower),
-    },
-    recommendations: {
-      inverterPowerW: round(inverterRecommendedPower),
-      inverterPowerKW: round(inverterRecommendedPower / 1000),
-      requiredPVPowerW: round(requiredPVPower),
-      panelPowerW: round(panelPower),
-      panelCount,
-      totalPanelPowerW: round(totalPanelPower),
-      batteryEnergyWh: round(batteryEnergyWh),
-      batteryCapacityAh: round(requiredBatteryAh),
-      batteryVoltage: round(batteryVoltage),
-      batteriesInSeries,
-      controllerCurrentA: round(controllerCurrent),
-      controllerRecommendedCurrentA: round(controllerRecommendedCurrent),
-      systemVoltage: round(systemVoltage),
-    },
-    warnings,
-  }
 }
