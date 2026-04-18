@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html, body, #root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Tahoma, Vazirmatn, IRANSans, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.watermark-bg {
+  position: relative;
+  isolation: isolate;
+}
+
+.watermark-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url('/logo-watermark.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: min(70vw, 540px);
+  opacity: 0.08;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.watermark-tile::before {
+  background-repeat: repeat;
+  background-size: 360px;
+  opacity: 0.045;
+}
