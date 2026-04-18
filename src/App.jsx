@@ -19,8 +19,112 @@ const methods = [
   },
 ]
 
+function MethodForm({ selectedMethod, onBack }) {
+  const [equipmentName, setEquipmentName] = useState('')
+  const [equipmentCount, setEquipmentCount] = useState('')
+  const [equipmentPower, setEquipmentPower] = useState('')
+  const [totalPower, setTotalPower] = useState('')
+  const [totalCurrent, setTotalCurrent] = useState('')
+  const [systemVoltage, setSystemVoltage] = useState('220')
+
+  return (
+    <div className="form-page">
+      <div className="form-bg-overlay" />
+
+      <div className="form-shell">
+        <div className="form-topbar glass-panel">
+          <button className="back-btn" onClick={onBack}>
+            بازگشت
+          </button>
+
+          <div className="form-title-wrap">
+            <div className="form-title">{selectedMethod.title}</div>
+          </div>
+        </div>
+
+        <div className="form-card glass-panel">
+          {selectedMethod.key === 'equipment' && (
+            <div className="form-grid">
+              <div className="field">
+                <label>نام تجهیز</label>
+                <input
+                  value={equipmentName}
+                  onChange={(e) => setEquipmentName(e.target.value)}
+                  placeholder="مثلاً کولر"
+                />
+              </div>
+
+              <div className="field">
+                <label>تعداد</label>
+                <input
+                  value={equipmentCount}
+                  onChange={(e) => setEquipmentCount(e.target.value)}
+                  placeholder="مثلاً 2"
+                />
+              </div>
+
+              <div className="field">
+                <label>توان هر تجهیز (وات)</label>
+                <input
+                  value={equipmentPower}
+                  onChange={(e) => setEquipmentPower(e.target.value)}
+                  placeholder="مثلاً 1200"
+                />
+              </div>
+            </div>
+          )}
+
+          {selectedMethod.key === 'power' && (
+            <div className="form-grid">
+              <div className="field field-full">
+                <label>توان کل مصرفی (وات)</label>
+                <input
+                  value={totalPower}
+                  onChange={(e) => setTotalPower(e.target.value)}
+                  placeholder="مثلاً 5000"
+                />
+              </div>
+            </div>
+          )}
+
+          {selectedMethod.key === 'current' && (
+            <div className="form-grid">
+              <div className="field">
+                <label>جریان کل (آمپر)</label>
+                <input
+                  value={totalCurrent}
+                  onChange={(e) => setTotalCurrent(e.target.value)}
+                  placeholder="مثلاً 18"
+                />
+              </div>
+
+              <div className="field">
+                <label>ولتاژ سیستم</label>
+                <select
+                  value={systemVoltage}
+                  onChange={(e) => setSystemVoltage(e.target.value)}
+                >
+                  <option value="12">12V</option>
+                  <option value="24">24V</option>
+                  <option value="48">48V</option>
+                  <option value="220">220V</option>
+                </select>
+              </div>
+            </div>
+          )}
+
+          <div className="form-actions">
+            <button className="primary-btn">ادامه</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function App() {
   const [screen, setScreen] = useState('splash')
+  const [selectedMethodKey, setSelectedMethodKey] = useState(null)
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -30,8 +134,12 @@ export default function App() {
     return () => clearTimeout(timer)
   }, [])
 
-  const handleMethodEnter = (method) => {
-    alert(`ورود به بخش: ${method}`)
+  const selectedMethod =
+    methods.find((item) => item.key === selectedMethodKey) || null
+
+  const handleMethodEnter = (methodKey) => {
+    setSelectedMethodKey(methodKey)
+    setScreen('form')
   }
 
   return (
@@ -90,7 +198,7 @@ export default function App() {
 
                     <button
                       className="secondary-btn"
-                      onClick={() => handleMethodEnter(item.title)}
+                      onClick={() => handleMethodEnter(item.key)}
                     >
                       ورود
                     </button>
@@ -100,6 +208,16 @@ export default function App() {
             </div>
           </div>
         </div>
+      )}
+
+      {screen === 'form' && selectedMethod && (
+        <MethodForm
+          selectedMethod={selectedMethod}
+          onBack={() => {
+            setScreen('methods')
+            setSelectedMethodKey(null)
+          }}
+        />
       )}
     </>
   )
