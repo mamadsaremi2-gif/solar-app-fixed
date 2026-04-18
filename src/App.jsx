@@ -27,7 +27,182 @@ function round(value) {
   return Math.round(value * 100) / 100
 }
 
-function EquipmentMethodForm({ onBack }) {
+function EquipmentReportPage({ data, onBackToForm, onBackToMethods }) {
+  const {
+    settings,
+    rows,
+    result,
+  } = data
+
+  return (
+    <div className="report-page">
+      <div className="report-bg-overlay" />
+
+      <div className="report-shell">
+        <div className="report-topbar glass-panel">
+          <button className="back-btn" onClick={onBackToMethods}>
+            انتخاب روش
+          </button>
+
+          <div className="report-title-wrap">
+            <div className="report-title">گزارش نهایی محاسبه تجهیزات</div>
+          </div>
+
+          <button className="back-btn" onClick={onBackToForm}>
+            بازگشت به فرم
+          </button>
+        </div>
+
+        <div className="report-card glass-panel">
+          <div className="section-title">خلاصه طراحی</div>
+
+          <div className="summary-grid">
+            <div className="summary-box">
+              <span>ولتاژ سیستم</span>
+              <strong>{settings.systemVoltage} V</strong>
+            </div>
+
+            <div className="summary-box">
+              <span>ساعات آفتابی</span>
+              <strong>{settings.sunHours}</strong>
+            </div>
+
+            <div className="summary-box">
+              <span>راندمان سیستم</span>
+              <strong>{settings.systemEfficiency}</strong>
+            </div>
+
+            <div className="summary-box">
+              <span>ضریب همزمانی</span>
+              <strong>{settings.simultaneityFactor}</strong>
+            </div>
+
+            <div className="summary-box">
+              <span>روزهای بکاپ</span>
+              <strong>{settings.backupDays}</strong>
+            </div>
+
+            <div className="summary-box">
+              <span>DOD باتری</span>
+              <strong>{settings.batteryDod}</strong>
+            </div>
+          </div>
+
+          <div className="section-title">نتایج اصلی</div>
+
+          <div className="results-grid">
+            <div className="result-box">
+              <span>توان متصل کل</span>
+              <strong>{result.totalConnectedPower} W</strong>
+            </div>
+
+            <div className="result-box">
+              <span>توان همزمان</span>
+              <strong>{result.coincidentPower} W</strong>
+            </div>
+
+            <div className="result-box">
+              <span>توان راه‌اندازی</span>
+              <strong>{result.totalSurgePower} W</strong>
+            </div>
+
+            <div className="result-box">
+              <span>انرژی روزانه</span>
+              <strong>{result.dailyEnergyWh} Wh</strong>
+            </div>
+
+            <div className="result-box">
+              <span>انرژی روزانه</span>
+              <strong>{result.dailyEnergyKWh} kWh</strong>
+            </div>
+
+            <div className="result-box">
+              <span>اینورتر پیشنهادی</span>
+              <strong>{result.inverterSuggestedW} W</strong>
+            </div>
+
+            <div className="result-box">
+              <span>توان PV موردنیاز</span>
+              <strong>{result.requiredPvPowerW} W</strong>
+            </div>
+
+            <div className="result-box">
+              <span>تعداد پنل</span>
+              <strong>{result.panelCount}</strong>
+            </div>
+
+            <div className="result-box">
+              <span>توان کل پنل‌ها</span>
+              <strong>{result.totalPanelPowerW} W</strong>
+            </div>
+
+            <div className="result-box">
+              <span>باتری موردنیاز</span>
+              <strong>{result.batteryRequiredAh} Ah</strong>
+            </div>
+
+            <div className="result-box">
+              <span>سری / موازی باتری</span>
+              <strong>{result.batterySeriesCount} / {result.batteryParallelCount}</strong>
+            </div>
+
+            <div className="result-box">
+              <span>تعداد کل باتری</span>
+              <strong>{result.totalBatteryCount}</strong>
+            </div>
+
+            <div className="result-box">
+              <span>کنترلر پیشنهادی</span>
+              <strong>{result.controllerSuggestedA} A</strong>
+            </div>
+          </div>
+
+          <div className="section-title">جدول تجهیزات</div>
+
+          <div className="report-table">
+            <div className="report-head">
+              <div>نام تجهیز</div>
+              <div>تعداد</div>
+              <div>توان</div>
+              <div>ساعت کار</div>
+              <div>ضریب راه‌اندازی</div>
+              <div>توان کل</div>
+              <div>انرژی روزانه</div>
+            </div>
+
+            {rows.map((item) => (
+              <div className="report-row" key={item.id}>
+                <div>{item.name || '-'}</div>
+                <div>{item.qtyNum}</div>
+                <div>{item.powerNum} W</div>
+                <div>{item.hoursNum}</div>
+                <div>{item.surgeFactorNum}</div>
+                <div>{item.totalPower} W</div>
+                <div>{item.dailyEnergy} Wh</div>
+              </div>
+            ))}
+          </div>
+
+          <div className="section-title">هشدارها و نکات فنی</div>
+
+          {result.warnings.length === 0 ? (
+            <div className="note-box">هشدار خاصی در تنظیمات فعلی دیده نشد.</div>
+          ) : (
+            <div className="warnings-list">
+              {result.warnings.map((warning, index) => (
+                <div className="warning-item" key={index}>
+                  {warning}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function EquipmentMethodForm({ onBack, onContinue }) {
   const [loads, setLoads] = useState([
     { id: '1', name: 'لامپ LED', qty: '6', power: '12', hours: '6', surgeFactor: '1' },
     { id: '2', name: 'تلویزیون', qty: '1', power: '120', hours: '5', surgeFactor: '1.2' },
@@ -356,7 +531,7 @@ function EquipmentMethodForm({ onBack }) {
             </div>
 
             <div className="result-box">
-              <span>باتری سری / موازی</span>
+              <span>سری / موازی باتری</span>
               <strong>{result.batterySeriesCount} / {result.batteryParallelCount}</strong>
             </div>
 
@@ -384,6 +559,31 @@ function EquipmentMethodForm({ onBack }) {
               ))}
             </div>
           )}
+
+          <div className="form-actions">
+            <button
+              className="primary-btn"
+              onClick={() =>
+                onContinue({
+                  settings: {
+                    sunHours,
+                    systemVoltage,
+                    backupDays,
+                    systemEfficiency,
+                    simultaneityFactor,
+                    panelUnitPower,
+                    batteryUnitVoltage,
+                    batteryUnitCapacityAh,
+                    batteryDod,
+                  },
+                  rows: calculatedRows,
+                  result,
+                })
+              }
+            >
+              ادامه
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -471,6 +671,7 @@ function CurrentMethodForm({ onBack }) {
 export default function App() {
   const [screen, setScreen] = useState('splash')
   const [selectedMethodKey, setSelectedMethodKey] = useState(null)
+  const [equipmentReportData, setEquipmentReportData] = useState(null)
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -485,6 +686,7 @@ export default function App() {
 
   const handleMethodEnter = (methodKey) => {
     setSelectedMethodKey(methodKey)
+    setEquipmentReportData(null)
     setScreen('form')
   }
 
@@ -554,6 +756,22 @@ export default function App() {
           onBack={() => {
             setScreen('methods')
             setSelectedMethodKey(null)
+          }}
+          onContinue={(data) => {
+            setEquipmentReportData(data)
+            setScreen('equipment-report')
+          }}
+        />
+      )}
+
+      {screen === 'equipment-report' && equipmentReportData && (
+        <EquipmentReportPage
+          data={equipmentReportData}
+          onBackToForm={() => setScreen('form')}
+          onBackToMethods={() => {
+            setScreen('methods')
+            setSelectedMethodKey(null)
+            setEquipmentReportData(null)
           }}
         />
       )}
