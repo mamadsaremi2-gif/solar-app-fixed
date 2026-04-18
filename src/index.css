@@ -17,6 +17,12 @@ body {
   background: #0f172a;
 }
 
+button,
+input,
+select {
+  font-family: inherit;
+}
+
 /* ========================= */
 /* مرحله 1 و 2 */
 /* ========================= */
@@ -102,7 +108,8 @@ body {
 }
 
 .primary-btn,
-.secondary-btn {
+.secondary-btn,
+.back-btn {
   border: none;
   cursor: pointer;
   font-weight: 800;
@@ -114,7 +121,8 @@ body {
 }
 
 .primary-btn:hover,
-.secondary-btn:hover {
+.secondary-btn:hover,
+.back-btn:hover {
   transform: translateY(-2px);
 }
 
@@ -327,6 +335,140 @@ body {
   filter: brightness(1.04);
 }
 
+/* ========================= */
+/* فرم روش‌ها */
+/* ========================= */
+
+.form-page {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(8, 13, 28, 0.28), rgba(8, 13, 28, 0.62)),
+    url('/solar-station-bg.jpg') center center / cover no-repeat;
+}
+
+.form-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at top center, rgba(255, 195, 0, 0.08), transparent 18%),
+    radial-gradient(circle at center, rgba(110, 76, 255, 0.10), transparent 34%);
+  z-index: 1;
+}
+
+.form-shell {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.glass-panel {
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.18);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow:
+    0 20px 44px rgba(8, 12, 24, 0.22),
+    inset 0 1px 0 rgba(255,255,255,0.18);
+}
+
+.form-topbar {
+  min-height: 86px;
+  border-radius: 24px;
+  display: grid;
+  grid-template-columns: 160px 1fr 160px;
+  align-items: center;
+  padding: 18px 22px;
+}
+
+.form-title-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-title {
+  color: #ffffff;
+  font-size: clamp(24px, 2.4vw, 38px);
+  font-weight: 900;
+  text-align: center;
+  text-shadow: 0 4px 14px rgba(0,0,0,0.24);
+}
+
+.back-btn {
+  width: 130px;
+  height: 50px;
+  border-radius: 14px;
+  color: #fff;
+  background: linear-gradient(135deg, #5f34d6, #3f1ea8);
+  box-shadow: 0 10px 22px rgba(63, 30, 168, 0.26);
+}
+
+.form-card {
+  flex: 1;
+  min-height: 0;
+  border-radius: 28px;
+  padding: 30px;
+  overflow: auto;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(240px, 1fr));
+  gap: 22px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.field-full {
+  grid-column: 1 / -1;
+}
+
+.field label {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 800;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+}
+
+.field input,
+.field select {
+  width: 100%;
+  height: 56px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.12);
+  color: #ffffff;
+  padding: 0 16px;
+  outline: none;
+  font-size: 18px;
+  backdrop-filter: blur(10px);
+}
+
+.field input::placeholder {
+  color: rgba(255,255,255,0.70);
+}
+
+.field select option {
+  color: #111827;
+}
+
+.form-actions {
+  margin-top: 28px;
+  display: flex;
+  justify-content: center;
+}
+
 @keyframes cardIn {
   to {
     opacity: 1;
@@ -363,7 +505,8 @@ body {
     font-size: 24px;
   }
 
-  .methods-bg {
+  .methods-bg,
+  .form-page {
     min-height: 100vh;
     height: auto;
   }
@@ -418,5 +561,31 @@ body {
     min-width: 150px;
     height: 50px;
     font-size: 21px;
+  }
+
+  .form-shell {
+    position: relative;
+    inset: auto;
+    min-height: 100vh;
+    padding: 18px;
+  }
+
+  .form-topbar {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .field-full {
+    grid-column: auto;
+  }
+
+  .form-card {
+    padding: 20px;
   }
 }
