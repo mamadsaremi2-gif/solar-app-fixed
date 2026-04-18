@@ -1,106 +1,622 @@
-body {
-  margin: 0;
-  font-family: 'Vazirmatn', sans-serif;
+* {
+  box-sizing: border-box;
 }
 
-/* بکگراند */
-.fullscreen-bg {
+html,
+body,
+#root {
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+  direction: rtl;
+  font-family: Tahoma, Arial, sans-serif;
+}
+
+body {
+  overflow: hidden;
+  background: #0f172a;
+}
+
+button,
+input,
+select {
+  font-family: inherit;
+}
+
+/* ========================= */
+/* بک‌گراند‌های اصلی */
+/* ========================= */
+
+.landing-bg,
+.methods-bg,
+.form-page,
+.report-page {
+  width: 100vw;
   height: 100vh;
-  background-size: cover;
-  background-position: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.landing-bg {
+  background:
+    linear-gradient(180deg, rgba(8, 13, 28, 0.30), rgba(8, 13, 28, 0.50)),
+    url('/Copilot_20260418_182917.png') center center / cover no-repeat;
+}
+
+.landing-dark-layer {
+  position: absolute;
+  inset: 0;
+}
+
+.methods-bg,
+.form-page,
+.report-page {
+  background:
+    linear-gradient(180deg, rgba(8, 13, 28, 0.35), rgba(8, 13, 28, 0.60)),
+    url('/solar-station-bg.jpg') center center / cover no-repeat;
+}
+
+.methods-bg-overlay,
+.form-bg-overlay,
+.report-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at top center, rgba(255, 195, 0, 0.10), transparent 20%),
+    radial-gradient(circle at center, rgba(110, 76, 255, 0.10), transparent 34%);
+  z-index: 1;
+}
+
+/* ========================= */
+/* صفحه اول */
+/* ========================= */
+
+.center-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+}
+
+.entry-panel {
+  position: relative;
+  width: min(92vw, 820px);
+  min-height: 360px;
+  border-radius: 34px;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.24), rgba(255,255,255,0.08));
+  border: 1px solid rgba(255,255,255,0.28);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  box-shadow:
+    0 30px 70px rgba(10, 14, 30, 0.28),
+    inset 0 1px 0 rgba(255,255,255,0.24);
+}
+
+.entry-shine {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at top left, rgba(255,255,255,0.24), transparent 30%),
+    linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.08) 45%, transparent 75%);
+  pointer-events: none;
+}
+
+.entry-content {
+  position: relative;
+  z-index: 1;
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 42px;
+  text-align: center;
+  padding: 44px 36px;
+}
+
+.entry-content h1 {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(32px, 4.2vw, 62px);
+  line-height: 1.55;
+  font-weight: 900;
+  letter-spacing: -0.4px;
+  text-shadow:
+    0 4px 18px rgba(0,0,0,0.25),
+    0 1px 0 rgba(255,255,255,0.08);
+}
+
+/* ========================= */
+/* دکمه‌ها */
+/* ========================= */
+
+.primary-btn,
+.secondary-btn,
+.back-btn,
+.mini-btn,
+.remove-btn {
+  border: none;
+  cursor: pointer;
+  font-weight: 800;
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    opacity 0.22s ease,
+    filter 0.22s ease;
+}
+
+.primary-btn:hover,
+.secondary-btn:hover,
+.back-btn:hover,
+.mini-btn:hover,
+.remove-btn:hover {
+  transform: translateY(-2px);
+}
+
+.primary-btn {
+  min-width: 230px;
+  height: 64px;
+  border-radius: 18px;
+  font-size: 28px;
+  color: #fff;
+  background: linear-gradient(135deg, #8c67ff, #5f34d6 65%, #4d24b9);
+  box-shadow:
+    0 18px 36px rgba(95, 52, 214, 0.36),
+    inset 0 1px 0 rgba(255,255,255,0.22);
+}
+
+.secondary-btn,
+.back-btn {
+  min-width: 150px;
+  height: 50px;
+  font-size: 20px;
+  color: #fff;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #8c67ff, #5f34d6 65%, #4d24b9);
+  box-shadow: 0 12px 24px rgba(95, 52, 214, 0.30);
+}
+
+.mini-btn {
+  min-width: 150px;
+  height: 48px;
+  border-radius: 14px;
+  color: #fff;
+  background: linear-gradient(135deg, #8c67ff, #5f34d6);
+  box-shadow: 0 10px 20px rgba(95, 52, 214, 0.26);
+}
+
+.remove-btn {
+  min-height: 54px;
+  border-radius: 14px;
+  color: #fff;
+  background: linear-gradient(135deg, #ff6b81, #d6336c);
+  box-shadow: 0 10px 20px rgba(214, 51, 108, 0.24);
+}
+
+/* ========================= */
+/* صفحه انتخاب روش */
+/* ========================= */
+
+.methods-hero {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  width: 320px;
+  height: 180px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* کارت اولیه */
-.glass-card {
-  backdrop-filter: blur(20px);
-  background: rgba(255,255,255,0.15);
-  padding: 40px;
-  border-radius: 20px;
-  text-align: center;
-  color: white;
+.hero-logo {
+  width: 220px;
+  max-width: 80%;
+  object-fit: contain;
+  filter: drop-shadow(0 16px 28px rgba(0,0,0,0.28));
 }
 
-.glass-card button {
-  margin-top: 20px;
-  padding: 12px 30px;
-  border-radius: 10px;
-  background: linear-gradient(45deg, purple, blue);
-  color: white;
-  border: none;
+.logo-glow {
+  position: absolute;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(124,92,255,0.25), transparent 70%);
+  filter: blur(24px);
 }
 
-/* کارت‌های روش */
-.cards-container {
+.methods-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  padding: 140px 24px 24px;
   display: flex;
-  gap: 30px;
+  align-items: center;
+  justify-content: center;
+}
+
+.methods-grid {
+  width: min(1200px, 100%);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(280px, 1fr));
+  gap: 24px;
 }
 
 .method-card {
-  width: 280px;
-  height: 220px;
-  backdrop-filter: blur(15px);
-  background: rgba(255,255,255,0.1);
+  position: relative;
+  min-height: 320px;
+  border-radius: 28px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.18);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 20px 40px rgba(8, 12, 24, 0.24);
+}
+
+.method-card-border {
+  position: absolute;
+  inset: 0;
+  border-radius: 28px;
+  padding: 1px;
+  background: linear-gradient(
+    160deg,
+    rgba(255,255,255,0.28),
+    rgba(255,255,255,0.05),
+    rgba(255,199,62,0.18)
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+}
+
+.method-card-content {
+  position: relative;
+  z-index: 1;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 28px;
+  text-align: center;
+}
+
+.method-card h2 {
+  color: #fff;
+  font-size: 34px;
+  font-weight: 900;
+  margin: 0;
+  line-height: 1.7;
+}
+
+.method-icon-wrap {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.16);
+}
+
+.method-icon {
+  font-size: 40px;
+  color: #fff3c8;
+}
+
+/* ========================= */
+/* فرم‌ها و گزارش‌ها */
+/* ========================= */
+
+.form-shell,
+.report-shell {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  padding: 140px 24px 24px;
+}
+
+.glass-panel {
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.18);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 20px 44px rgba(8, 12, 24, 0.22);
+}
+
+.form-topbar,
+.report-topbar {
+  min-height: 86px;
+  border-radius: 24px;
+  display: grid;
+  grid-template-columns: 160px 1fr 160px;
+  align-items: center;
+  padding: 18px 22px;
+}
+
+.form-title-wrap,
+.report-title-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-title,
+.report-title {
+  color: #fff;
+  font-size: 38px;
+  font-weight: 900;
+  text-align: center;
+}
+
+.form-card,
+.report-card {
+  margin-top: 20px;
+  border-radius: 28px;
+  padding: 28px;
+  overflow: auto;
+  max-height: calc(100vh - 190px);
+}
+
+.section-title {
+  color: #fff;
+  font-size: 24px;
+  font-weight: 900;
+  margin: 0 0 16px;
+}
+
+.section-header {
+  margin-top: 28px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.form-grid,
+.results-grid,
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(220px, 1fr));
+  gap: 18px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.field-full {
+  grid-column: 1 / -1;
+}
+
+.field label {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  height: 54px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.20);
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  padding: 0 14px;
+  font-size: 18px;
+  outline: none;
+}
+
+.field input::placeholder {
+  color: rgba(255,255,255,0.70);
+}
+
+.field select option {
+  color: #111827;
+}
+
+.form-actions {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+/* ========================= */
+/* باکس‌های نتایج */
+/* ========================= */
+
+.result-box,
+.summary-box {
+  min-height: 120px;
   border-radius: 20px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.16);
+  padding: 18px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  text-align: center;
+}
+
+.result-box span,
+.summary-box span {
+  color: rgba(255,255,255,0.82);
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.result-box strong,
+.summary-box strong {
+  color: #fff;
+  font-size: 28px;
+  font-weight: 900;
+}
+
+/* ========================= */
+/* جدول‌ها */
+/* ========================= */
+
+.loads-table,
+.report-table {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.loads-head,
+.loads-row,
+.report-head,
+.report-row {
+  display: grid;
+  gap: 12px;
   align-items: center;
-  color: white;
 }
 
-.method-card button {
-  margin-top: 15px;
-  padding: 10px 25px;
-  border-radius: 10px;
-  background: linear-gradient(45deg, purple, blue);
-  border: none;
-  color: white;
+.loads-head-8,
+.loads-row-8 {
+  grid-template-columns: 1.4fr 0.7fr 0.9fr 0.9fr 1fr 1fr 1fr 0.7fr;
 }
 
-/* فرم */
-.form-page {
-  height: 100vh;
-  background: url('/method-bg.png') center/cover;
+.report-head,
+.report-row {
+  grid-template-columns: 1.4fr 0.7fr 0.9fr 0.9fr 1fr 1fr 1fr;
+}
+
+.loads-head,
+.report-head {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 800;
+  padding: 0 8px;
+}
+
+.loads-row input {
+  width: 100%;
+  height: 54px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.12);
+  color: #ffffff;
+  padding: 0 14px;
+  font-size: 16px;
+}
+
+.readonly-cell,
+.report-row > div {
+  min-height: 54px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.16);
+  background: rgba(255,255,255,0.10);
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #ffffff;
+  font-weight: 800;
+  padding: 8px;
+  text-align: center;
 }
 
-.form-card {
-  backdrop-filter: blur(20px);
-  background: rgba(255,255,255,0.2);
-  padding: 40px;
-  border-radius: 20px;
-  width: 400px;
+/* ========================= */
+/* هشدارها و نکات */
+/* ========================= */
+
+.warning-item,
+.note-box {
+  min-height: 62px;
+  border-radius: 16px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  font-weight: 700;
+  margin-top: 12px;
+  line-height: 1.9;
 }
 
-.form-card input {
-  width: 100%;
-  margin: 10px 0;
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
+.warning-item {
+  background: rgba(251, 191, 36, 0.16);
+  border: 1px solid rgba(251, 191, 36, 0.24);
 }
 
-.result {
-  margin-top: 15px;
+.note-box {
+  background: rgba(52, 211, 153, 0.16);
+  border: 1px solid rgba(52, 211, 153, 0.24);
 }
 
-.calc-btn {
-  margin-top: 20px;
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  background: linear-gradient(45deg, purple, blue);
-  border: none;
-  color: white;
+.warnings-list {
+  display: grid;
+  gap: 12px;
 }
 
-.back {
-  position: absolute;
-  top: 20px;
-  right: 20px;
+/* ========================= */
+/* موبایل */
+/* ========================= */
+
+@media (max-width: 980px) {
+  body {
+    overflow: auto;
+  }
+
+  .methods-grid,
+  .form-grid,
+  .results-grid,
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-topbar,
+  .report-topbar {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    justify-items: center;
+  }
+
+  .methods-wrap,
+  .form-shell,
+  .report-shell {
+    padding: 120px 16px 16px;
+  }
+
+  .form-title,
+  .report-title {
+    font-size: 28px;
+  }
+
+  .method-card h2 {
+    font-size: 28px;
+  }
+
+  .loads-head,
+  .report-head {
+    display: none;
+  }
+
+  .loads-row,
+  .loads-row-8,
+  .report-row {
+    grid-template-columns: 1fr;
+  }
+
+  .form-card,
+  .report-card {
+    max-height: none;
+  }
 }
