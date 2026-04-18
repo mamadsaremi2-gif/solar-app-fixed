@@ -507,9 +507,13 @@ select {
 .loads-head,
 .loads-row {
   display: grid;
-  grid-template-columns: 1.4fr 0.7fr 0.9fr 0.9fr 1fr 1fr 0.7fr;
   gap: 12px;
   align-items: center;
+}
+
+.loads-head-8,
+.loads-row-8 {
+  grid-template-columns: 1.4fr 0.7fr 0.9fr 0.9fr 1fr 1fr 1fr 0.7fr;
 }
 
 .loads-head {
@@ -586,6 +590,38 @@ select {
   color: #ffffff;
   font-size: 30px;
   font-weight: 900;
+}
+
+.note-box {
+  min-height: 66px;
+  border-radius: 18px;
+  background: rgba(52, 211, 153, 0.16);
+  border: 1px solid rgba(52, 211, 153, 0.24);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  padding: 16px 18px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.warnings-list {
+  display: grid;
+  gap: 14px;
+}
+
+.warning-item {
+  min-height: 66px;
+  border-radius: 18px;
+  background: rgba(251, 191, 36, 0.16);
+  border: 1px solid rgba(251, 191, 36, 0.24);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  padding: 16px 18px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.8;
 }
 
 .form-actions {
@@ -710,7 +746,8 @@ select {
     display: none;
   }
 
-  .loads-row {
+  .loads-row,
+  .loads-row-8 {
     grid-template-columns: 1fr;
   }
 
