@@ -12,36 +12,64 @@ export default function App() {
     return () => clearTimeout(timer)
   }, [])
 
+  const handleMethodEnter = (method) => {
+    alert(`ورود به بخش: ${method}`)
+  }
+
   return (
-    <div className="landing-bg">
-      {screen === 'entry' && (
-        <div className="center-wrap">
-          <div className="glass-card entry-card">
-            <h1>محاسبات و راه‌اندازی پروژه‌های خورشیدی</h1>
-            <button className="enter-btn" onClick={() => setScreen('methods')}>
-              ورود
-            </button>
-          </div>
+    <>
+      {(screen === 'splash' || screen === 'entry') && (
+        <div className="landing-bg">
+          {screen === 'entry' && (
+            <div className="center-wrap">
+              <div className="glass-card entry-card">
+                <h1>محاسبات و راه‌اندازی پروژه‌های خورشیدی</h1>
+                <button className="enter-btn" onClick={() => setScreen('methods')}>
+                  ورود
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
       {screen === 'methods' && (
-        <div className="methods-wrap">
-          <div className="methods-grid">
-            <div className="glass-card method-card">
-              <div className="method-title">محاسبه بر اساس تجهیزات</div>
-            </div>
+        <div className="methods-bg">
+          <div className="methods-wrap">
+            <div className="methods-grid">
+              <div className="glass-card method-card">
+                <div className="method-title">محاسبه بر اساس تجهیزات</div>
+                <button
+                  className="method-enter-btn"
+                  onClick={() => handleMethodEnter('محاسبه بر اساس تجهیزات')}
+                >
+                  ورود
+                </button>
+              </div>
 
-            <div className="glass-card method-card">
-              <div className="method-title">محاسبه بر اساس توان کل</div>
-            </div>
+              <div className="glass-card method-card">
+                <div className="method-title">محاسبه بر اساس توان کل</div>
+                <button
+                  className="method-enter-btn"
+                  onClick={() => handleMethodEnter('محاسبه بر اساس توان کل')}
+                >
+                  ورود
+                </button>
+              </div>
 
-            <div className="glass-card method-card">
-              <div className="method-title">محاسبه بر اساس جریان کل</div>
+              <div className="glass-card method-card">
+                <div className="method-title">محاسبه بر اساس جریان کل</div>
+                <button
+                  className="method-enter-btn"
+                  onClick={() => handleMethodEnter('محاسبه بر اساس جریان کل')}
+                >
+                  ورود
+                </button>
+              </div>
             </div>
           </div>
         </div>
       )}
-    </div>
+    </>
   )
 }
