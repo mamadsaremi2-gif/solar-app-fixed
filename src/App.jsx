@@ -18,7 +18,6 @@ export default function App() {
 
   return (
     <>
-      {/* مرحله 1 و 2 */}
       {(screen === 'splash' || screen === 'entry') && (
         <div className="landing-bg">
           {screen === 'entry' && (
@@ -37,12 +36,11 @@ export default function App() {
         </div>
       )}
 
-      {/* مرحله 3 */}
       {screen === 'methods' && (
         <div className="methods-bg">
+          <div className="methods-overlay" />
           <div className="methods-wrap">
             <div className="methods-grid">
-
               <div className="glass-card method-card">
                 <div className="method-title">محاسبه بر اساس تجهیزات</div>
                 <button
@@ -72,7 +70,6 @@ export default function App() {
                   ورود
                 </button>
               </div>
-
             </div>
           </div>
         </div>
