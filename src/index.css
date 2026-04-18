@@ -23,10 +23,7 @@ select {
   font-family: inherit;
 }
 
-/* ========================= */
-/* مرحله 1 و 2 */
-/* ========================= */
-
+/* stage 1-2 */
 .landing-bg {
   width: 100vw;
   height: 100vh;
@@ -142,11 +139,10 @@ select {
     inset 0 1px 0 rgba(255,255,255,0.22);
 }
 
-/* ========================= */
-/* مرحله 3 */
-/* ========================= */
-
-.methods-bg {
+/* methods */
+.methods-bg,
+.form-page,
+.report-page {
   width: 100vw;
   height: 100vh;
   position: relative;
@@ -156,7 +152,9 @@ select {
     url('/solar-station-bg.jpg') center center / cover no-repeat;
 }
 
-.methods-bg-overlay {
+.methods-bg-overlay,
+.form-bg-overlay,
+.report-bg-overlay {
   position: absolute;
   inset: 0;
   background:
@@ -339,30 +337,9 @@ select {
   filter: brightness(1.04);
 }
 
-/* ========================= */
-/* فرم روش‌ها */
-/* ========================= */
-
-.form-page {
-  width: 100vw;
-  height: 100vh;
-  position: relative;
-  overflow: hidden;
-  background:
-    linear-gradient(180deg, rgba(8, 13, 28, 0.28), rgba(8, 13, 28, 0.62)),
-    url('/solar-station-bg.jpg') center center / cover no-repeat;
-}
-
-.form-bg-overlay {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at top center, rgba(255, 195, 0, 0.08), transparent 18%),
-    radial-gradient(circle at center, rgba(110, 76, 255, 0.10), transparent 34%);
-  z-index: 1;
-}
-
-.form-shell {
+/* shared glass panels */
+.form-shell,
+.report-shell {
   position: absolute;
   inset: 0;
   z-index: 2;
@@ -382,7 +359,8 @@ select {
     inset 0 1px 0 rgba(255,255,255,0.18);
 }
 
-.form-topbar {
+.form-topbar,
+.report-topbar {
   min-height: 86px;
   border-radius: 24px;
   display: grid;
@@ -391,13 +369,15 @@ select {
   padding: 18px 22px;
 }
 
-.form-title-wrap {
+.form-title-wrap,
+.report-title-wrap {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.form-title {
+.form-title,
+.report-title {
   color: #ffffff;
   font-size: clamp(24px, 2.4vw, 38px);
   font-weight: 900;
@@ -414,7 +394,8 @@ select {
   box-shadow: 0 10px 22px rgba(63, 30, 168, 0.26);
 }
 
-.form-card {
+.form-card,
+.report-card {
   flex: 1;
   min-height: 0;
   border-radius: 28px;
@@ -498,14 +479,17 @@ select {
   color: #111827;
 }
 
-.loads-table {
+.loads-table,
+.report-table {
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
 
 .loads-head,
-.loads-row {
+.loads-row,
+.report-head,
+.report-row {
   display: grid;
   gap: 12px;
   align-items: center;
@@ -516,7 +500,13 @@ select {
   grid-template-columns: 1.4fr 0.7fr 0.9fr 0.9fr 1fr 1fr 1fr 0.7fr;
 }
 
-.loads-head {
+.report-head,
+.report-row {
+  grid-template-columns: 1.4fr 0.7fr 0.9fr 0.9fr 1fr 1fr 1fr;
+}
+
+.loads-head,
+.report-head {
   color: #ffffff;
   font-size: 18px;
   font-weight: 800;
@@ -534,7 +524,8 @@ select {
   font-size: 16px;
 }
 
-.readonly-cell {
+.readonly-cell,
+.report-row > div {
   min-height: 54px;
   border-radius: 14px;
   border: 1px solid rgba(255,255,255,0.16);
@@ -556,14 +547,16 @@ select {
   box-shadow: 0 10px 20px rgba(214, 51, 108, 0.24);
 }
 
-.results-grid {
+.results-grid,
+.summary-grid {
   margin-top: 18px;
   display: grid;
   grid-template-columns: repeat(3, minmax(220px, 1fr));
   gap: 18px;
 }
 
-.result-box {
+.result-box,
+.summary-box {
   min-height: 130px;
   border-radius: 22px;
   background: rgba(255,255,255,0.14);
@@ -580,13 +573,15 @@ select {
   text-align: center;
 }
 
-.result-box span {
+.result-box span,
+.summary-box span {
   color: rgba(255,255,255,0.82);
   font-size: 18px;
   font-weight: 700;
 }
 
-.result-box strong {
+.result-box strong,
+.summary-box strong {
   color: #ffffff;
   font-size: 30px;
   font-weight: 900;
@@ -637,10 +632,6 @@ select {
   }
 }
 
-/* ========================= */
-/* موبایل */
-/* ========================= */
-
 @media (max-width: 980px) {
   body {
     overflow: auto;
@@ -667,7 +658,8 @@ select {
   }
 
   .methods-bg,
-  .form-page {
+  .form-page,
+  .report-page {
     min-height: 100vh;
     height: auto;
   }
@@ -724,30 +716,36 @@ select {
     font-size: 21px;
   }
 
-  .form-shell {
+  .form-shell,
+  .report-shell {
     position: relative;
     inset: auto;
     min-height: 100vh;
     padding: 18px;
   }
 
-  .form-topbar {
+  .form-topbar,
+  .report-topbar {
     grid-template-columns: 1fr;
     gap: 14px;
     justify-items: center;
     text-align: center;
   }
 
-  .form-grid {
+  .form-grid,
+  .results-grid,
+  .summary-grid {
     grid-template-columns: 1fr;
   }
 
-  .loads-head {
+  .loads-head,
+  .report-head {
     display: none;
   }
 
   .loads-row,
-  .loads-row-8 {
+  .loads-row-8,
+  .report-row {
     grid-template-columns: 1fr;
   }
 
@@ -755,11 +753,8 @@ select {
     grid-column: auto;
   }
 
-  .form-card {
+  .form-card,
+  .report-card {
     padding: 20px;
-  }
-
-  .results-grid {
-    grid-template-columns: 1fr;
   }
 }
