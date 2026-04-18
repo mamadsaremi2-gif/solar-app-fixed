@@ -28,11 +28,7 @@ function round(value) {
 }
 
 function EquipmentReportPage({ data, onBackToForm, onBackToMethods }) {
-  const {
-    settings,
-    rows,
-    result,
-  } = data
+  const { settings, rows, result } = data
 
   return (
     <div className="report-page">
@@ -57,104 +53,30 @@ function EquipmentReportPage({ data, onBackToForm, onBackToMethods }) {
           <div className="section-title">خلاصه طراحی</div>
 
           <div className="summary-grid">
-            <div className="summary-box">
-              <span>ولتاژ سیستم</span>
-              <strong>{settings.systemVoltage} V</strong>
-            </div>
-
-            <div className="summary-box">
-              <span>ساعات آفتابی</span>
-              <strong>{settings.sunHours}</strong>
-            </div>
-
-            <div className="summary-box">
-              <span>راندمان سیستم</span>
-              <strong>{settings.systemEfficiency}</strong>
-            </div>
-
-            <div className="summary-box">
-              <span>ضریب همزمانی</span>
-              <strong>{settings.simultaneityFactor}</strong>
-            </div>
-
-            <div className="summary-box">
-              <span>روزهای بکاپ</span>
-              <strong>{settings.backupDays}</strong>
-            </div>
-
-            <div className="summary-box">
-              <span>DOD باتری</span>
-              <strong>{settings.batteryDod}</strong>
-            </div>
+            <div className="summary-box"><span>ولتاژ سیستم</span><strong>{settings.systemVoltage} V</strong></div>
+            <div className="summary-box"><span>ساعات آفتابی</span><strong>{settings.sunHours}</strong></div>
+            <div className="summary-box"><span>راندمان سیستم</span><strong>{settings.systemEfficiency}</strong></div>
+            <div className="summary-box"><span>ضریب همزمانی</span><strong>{settings.simultaneityFactor}</strong></div>
+            <div className="summary-box"><span>روزهای بکاپ</span><strong>{settings.backupDays}</strong></div>
+            <div className="summary-box"><span>DOD باتری</span><strong>{settings.batteryDod}</strong></div>
           </div>
 
           <div className="section-title">نتایج اصلی</div>
 
           <div className="results-grid">
-            <div className="result-box">
-              <span>توان متصل کل</span>
-              <strong>{result.totalConnectedPower} W</strong>
-            </div>
-
-            <div className="result-box">
-              <span>توان همزمان</span>
-              <strong>{result.coincidentPower} W</strong>
-            </div>
-
-            <div className="result-box">
-              <span>توان راه‌اندازی</span>
-              <strong>{result.totalSurgePower} W</strong>
-            </div>
-
-            <div className="result-box">
-              <span>انرژی روزانه</span>
-              <strong>{result.dailyEnergyWh} Wh</strong>
-            </div>
-
-            <div className="result-box">
-              <span>انرژی روزانه</span>
-              <strong>{result.dailyEnergyKWh} kWh</strong>
-            </div>
-
-            <div className="result-box">
-              <span>اینورتر پیشنهادی</span>
-              <strong>{result.inverterSuggestedW} W</strong>
-            </div>
-
-            <div className="result-box">
-              <span>توان PV موردنیاز</span>
-              <strong>{result.requiredPvPowerW} W</strong>
-            </div>
-
-            <div className="result-box">
-              <span>تعداد پنل</span>
-              <strong>{result.panelCount}</strong>
-            </div>
-
-            <div className="result-box">
-              <span>توان کل پنل‌ها</span>
-              <strong>{result.totalPanelPowerW} W</strong>
-            </div>
-
-            <div className="result-box">
-              <span>باتری موردنیاز</span>
-              <strong>{result.batteryRequiredAh} Ah</strong>
-            </div>
-
-            <div className="result-box">
-              <span>سری / موازی باتری</span>
-              <strong>{result.batterySeriesCount} / {result.batteryParallelCount}</strong>
-            </div>
-
-            <div className="result-box">
-              <span>تعداد کل باتری</span>
-              <strong>{result.totalBatteryCount}</strong>
-            </div>
-
-            <div className="result-box">
-              <span>کنترلر پیشنهادی</span>
-              <strong>{result.controllerSuggestedA} A</strong>
-            </div>
+            <div className="result-box"><span>توان متصل کل</span><strong>{result.totalConnectedPower} W</strong></div>
+            <div className="result-box"><span>توان همزمان</span><strong>{result.coincidentPower} W</strong></div>
+            <div className="result-box"><span>توان راه‌اندازی</span><strong>{result.totalSurgePower} W</strong></div>
+            <div className="result-box"><span>انرژی روزانه</span><strong>{result.dailyEnergyWh} Wh</strong></div>
+            <div className="result-box"><span>انرژی روزانه</span><strong>{result.dailyEnergyKWh} kWh</strong></div>
+            <div className="result-box"><span>اینورتر پیشنهادی</span><strong>{result.inverterSuggestedW} W</strong></div>
+            <div className="result-box"><span>توان PV موردنیاز</span><strong>{result.requiredPvPowerW} W</strong></div>
+            <div className="result-box"><span>تعداد پنل</span><strong>{result.panelCount}</strong></div>
+            <div className="result-box"><span>توان کل پنل‌ها</span><strong>{result.totalPanelPowerW} W</strong></div>
+            <div className="result-box"><span>باتری موردنیاز</span><strong>{result.batteryRequiredAh} Ah</strong></div>
+            <div className="result-box"><span>سری / موازی باتری</span><strong>{result.batterySeriesCount} / {result.batteryParallelCount}</strong></div>
+            <div className="result-box"><span>تعداد کل باتری</span><strong>{result.totalBatteryCount}</strong></div>
+            <div className="result-box"><span>کنترلر پیشنهادی</span><strong>{result.controllerSuggestedA} A</strong></div>
           </div>
 
           <div className="section-title">جدول تجهیزات</div>
@@ -190,12 +112,55 @@ function EquipmentReportPage({ data, onBackToForm, onBackToMethods }) {
           ) : (
             <div className="warnings-list">
               {result.warnings.map((warning, index) => (
-                <div className="warning-item" key={index}>
-                  {warning}
-                </div>
+                <div className="warning-item" key={index}>{warning}</div>
               ))}
             </div>
           )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function GenericReportPage({ title, cards, notes, onBackToForm, onBackToMethods }) {
+  return (
+    <div className="report-page">
+      <div className="report-bg-overlay" />
+
+      <div className="report-shell">
+        <div className="report-topbar glass-panel">
+          <button className="back-btn" onClick={onBackToMethods}>
+            انتخاب روش
+          </button>
+
+          <div className="report-title-wrap">
+            <div className="report-title">{title}</div>
+          </div>
+
+          <button className="back-btn" onClick={onBackToForm}>
+            بازگشت به فرم
+          </button>
+        </div>
+
+        <div className="report-card glass-panel">
+          <div className="section-title">نتایج اصلی</div>
+
+          <div className="results-grid">
+            {cards.map((card, idx) => (
+              <div className="result-box" key={idx}>
+                <span>{card.label}</span>
+                <strong>{card.value}</strong>
+              </div>
+            ))}
+          </div>
+
+          <div className="section-title">نکات فنی</div>
+
+          <div className="warnings-list">
+            {notes.map((item, idx) => (
+              <div className="warning-item" key={idx}>{item}</div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -279,23 +244,18 @@ function EquipmentMethodForm({ onBack, onContinue }) {
     if (safeSystemVoltage === 12 && totalConnectedPower > 1500) {
       warnings.push('برای این توان، سیستم 12 ولت مناسب نیست و 24 یا 48 ولت پیشنهاد می‌شود.')
     }
-
     if (safeSystemVoltage === 24 && totalConnectedPower > 4000) {
       warnings.push('برای این توان، سیستم 48 ولت پیشنهاد می‌شود.')
     }
-
     if (safeSunHours < 4) {
       warnings.push('ساعات آفتابی مفید پایین در نظر گرفته شده و تعداد پنل بیشتر خواهد شد.')
     }
-
     if (safeEfficiency < 0.75) {
       warnings.push('راندمان سیستم پایین وارد شده است؛ تلفات سیستم را بررسی کن.')
     }
-
     if (controllerSuggestedA > 100) {
       warnings.push('جریان کنترلر بالاست؛ بررسی استفاده از چند MPPT یا ولتاژ بالاتر توصیه می‌شود.')
     }
-
     if (totalSurgePower > inverterSuggestedW * 0.95) {
       warnings.push('توان راه‌اندازی نزدیک به مرز انتخاب اینورتر است؛ حاشیه اطمینان را بیشتر کن.')
     }
@@ -351,9 +311,7 @@ function EquipmentMethodForm({ onBack, onContinue }) {
 
       <div className="form-shell">
         <div className="form-topbar glass-panel">
-          <button className="back-btn" onClick={onBack}>
-            بازگشت
-          </button>
+          <button className="back-btn" onClick={onBack}>بازگشت</button>
 
           <div className="form-title-wrap">
             <div className="form-title">محاسبه بر اساس تجهیزات</div>
@@ -370,7 +328,6 @@ function EquipmentMethodForm({ onBack, onContinue }) {
               <label>ساعات آفتابی مفید</label>
               <input value={sunHours} onChange={(e) => setSunHours(e.target.value)} placeholder="مثلاً 5" />
             </div>
-
             <div className="field">
               <label>ولتاژ سیستم</label>
               <select value={systemVoltage} onChange={(e) => setSystemVoltage(e.target.value)}>
@@ -379,37 +336,30 @@ function EquipmentMethodForm({ onBack, onContinue }) {
                 <option value="48">48V</option>
               </select>
             </div>
-
             <div className="field">
               <label>روزهای بکاپ باتری</label>
               <input value={backupDays} onChange={(e) => setBackupDays(e.target.value)} placeholder="مثلاً 1" />
             </div>
-
             <div className="field">
               <label>راندمان سیستم</label>
               <input value={systemEfficiency} onChange={(e) => setSystemEfficiency(e.target.value)} placeholder="مثلاً 0.8" />
             </div>
-
             <div className="field">
               <label>ضریب همزمانی</label>
               <input value={simultaneityFactor} onChange={(e) => setSimultaneityFactor(e.target.value)} placeholder="مثلاً 0.8" />
             </div>
-
             <div className="field">
               <label>توان هر پنل (وات)</label>
               <input value={panelUnitPower} onChange={(e) => setPanelUnitPower(e.target.value)} placeholder="مثلاً 550" />
             </div>
-
             <div className="field">
               <label>ولتاژ هر باتری</label>
               <input value={batteryUnitVoltage} onChange={(e) => setBatteryUnitVoltage(e.target.value)} placeholder="مثلاً 12" />
             </div>
-
             <div className="field">
               <label>ظرفیت هر باتری (Ah)</label>
               <input value={batteryUnitCapacityAh} onChange={(e) => setBatteryUnitCapacityAh(e.target.value)} placeholder="مثلاً 200" />
             </div>
-
             <div className="field">
               <label>DOD باتری</label>
               <input value={batteryDod} onChange={(e) => setBatteryDod(e.target.value)} placeholder="مثلاً 0.8" />
@@ -418,9 +368,7 @@ function EquipmentMethodForm({ onBack, onContinue }) {
 
           <div className="section-header">
             <div className="section-title">لیست تجهیزات</div>
-            <button className="mini-btn" onClick={addLoad}>
-              افزودن تجهیز
-            </button>
+            <button className="mini-btn" onClick={addLoad}>افزودن تجهیز</button>
           </div>
 
           <div className="loads-table">
@@ -437,42 +385,14 @@ function EquipmentMethodForm({ onBack, onContinue }) {
 
             {calculatedRows.map((item) => (
               <div className="loads-row loads-row-8" key={item.id}>
-                <input
-                  value={item.name}
-                  onChange={(e) => updateLoad(item.id, 'name', e.target.value)}
-                  placeholder="نام تجهیز"
-                />
-
-                <input
-                  value={item.qty}
-                  onChange={(e) => updateLoad(item.id, 'qty', e.target.value)}
-                  placeholder="تعداد"
-                />
-
-                <input
-                  value={item.power}
-                  onChange={(e) => updateLoad(item.id, 'power', e.target.value)}
-                  placeholder="وات"
-                />
-
-                <input
-                  value={item.hours}
-                  onChange={(e) => updateLoad(item.id, 'hours', e.target.value)}
-                  placeholder="ساعت"
-                />
-
-                <input
-                  value={item.surgeFactor}
-                  onChange={(e) => updateLoad(item.id, 'surgeFactor', e.target.value)}
-                  placeholder="مثلاً 3"
-                />
-
+                <input value={item.name} onChange={(e) => updateLoad(item.id, 'name', e.target.value)} placeholder="نام تجهیز" />
+                <input value={item.qty} onChange={(e) => updateLoad(item.id, 'qty', e.target.value)} placeholder="تعداد" />
+                <input value={item.power} onChange={(e) => updateLoad(item.id, 'power', e.target.value)} placeholder="وات" />
+                <input value={item.hours} onChange={(e) => updateLoad(item.id, 'hours', e.target.value)} placeholder="ساعت" />
+                <input value={item.surgeFactor} onChange={(e) => updateLoad(item.id, 'surgeFactor', e.target.value)} placeholder="مثلاً 3" />
                 <div className="readonly-cell">{item.totalPower} W</div>
                 <div className="readonly-cell">{item.dailyEnergy} Wh</div>
-
-                <button className="remove-btn" onClick={() => removeLoad(item.id)}>
-                  حذف
-                </button>
+                <button className="remove-btn" onClick={() => removeLoad(item.id)}>حذف</button>
               </div>
             ))}
           </div>
@@ -480,70 +400,19 @@ function EquipmentMethodForm({ onBack, onContinue }) {
           <div className="section-title">نتایج مهندسی</div>
 
           <div className="results-grid">
-            <div className="result-box">
-              <span>توان متصل کل</span>
-              <strong>{result.totalConnectedPower} W</strong>
-            </div>
-
-            <div className="result-box">
-              <span>توان همزمان</span>
-              <strong>{result.coincidentPower} W</strong>
-            </div>
-
-            <div className="result-box">
-              <span>توان راه‌اندازی</span>
-              <strong>{result.totalSurgePower} W</strong>
-            </div>
-
-            <div className="result-box">
-              <span>انرژی روزانه</span>
-              <strong>{result.dailyEnergyWh} Wh</strong>
-            </div>
-
-            <div className="result-box">
-              <span>انرژی روزانه</span>
-              <strong>{result.dailyEnergyKWh} kWh</strong>
-            </div>
-
-            <div className="result-box">
-              <span>اینورتر پیشنهادی</span>
-              <strong>{result.inverterSuggestedW} W</strong>
-            </div>
-
-            <div className="result-box">
-              <span>توان PV موردنیاز</span>
-              <strong>{result.requiredPvPowerW} W</strong>
-            </div>
-
-            <div className="result-box">
-              <span>تعداد پنل</span>
-              <strong>{result.panelCount}</strong>
-            </div>
-
-            <div className="result-box">
-              <span>توان کل پنل‌ها</span>
-              <strong>{result.totalPanelPowerW} W</strong>
-            </div>
-
-            <div className="result-box">
-              <span>باتری موردنیاز</span>
-              <strong>{result.batteryRequiredAh} Ah</strong>
-            </div>
-
-            <div className="result-box">
-              <span>سری / موازی باتری</span>
-              <strong>{result.batterySeriesCount} / {result.batteryParallelCount}</strong>
-            </div>
-
-            <div className="result-box">
-              <span>تعداد کل باتری</span>
-              <strong>{result.totalBatteryCount}</strong>
-            </div>
-
-            <div className="result-box">
-              <span>کنترلر پیشنهادی</span>
-              <strong>{result.controllerSuggestedA} A</strong>
-            </div>
+            <div className="result-box"><span>توان متصل کل</span><strong>{result.totalConnectedPower} W</strong></div>
+            <div className="result-box"><span>توان همزمان</span><strong>{result.coincidentPower} W</strong></div>
+            <div className="result-box"><span>توان راه‌اندازی</span><strong>{result.totalSurgePower} W</strong></div>
+            <div className="result-box"><span>انرژی روزانه</span><strong>{result.dailyEnergyWh} Wh</strong></div>
+            <div className="result-box"><span>انرژی روزانه</span><strong>{result.dailyEnergyKWh} kWh</strong></div>
+            <div className="result-box"><span>اینورتر پیشنهادی</span><strong>{result.inverterSuggestedW} W</strong></div>
+            <div className="result-box"><span>توان PV موردنیاز</span><strong>{result.requiredPvPowerW} W</strong></div>
+            <div className="result-box"><span>تعداد پنل</span><strong>{result.panelCount}</strong></div>
+            <div className="result-box"><span>توان کل پنل‌ها</span><strong>{result.totalPanelPowerW} W</strong></div>
+            <div className="result-box"><span>باتری موردنیاز</span><strong>{result.batteryRequiredAh} Ah</strong></div>
+            <div className="result-box"><span>سری / موازی باتری</span><strong>{result.batterySeriesCount} / {result.batteryParallelCount}</strong></div>
+            <div className="result-box"><span>تعداد کل باتری</span><strong>{result.totalBatteryCount}</strong></div>
+            <div className="result-box"><span>کنترلر پیشنهادی</span><strong>{result.controllerSuggestedA} A</strong></div>
           </div>
 
           <div className="section-title">هشدارها و نکات فنی</div>
@@ -553,9 +422,7 @@ function EquipmentMethodForm({ onBack, onContinue }) {
           ) : (
             <div className="warnings-list">
               {result.warnings.map((warning, index) => (
-                <div className="warning-item" key={index}>
-                  {warning}
-                </div>
+                <div className="warning-item" key={index}>{warning}</div>
               ))}
             </div>
           )}
@@ -590,8 +457,37 @@ function EquipmentMethodForm({ onBack, onContinue }) {
   )
 }
 
-function PowerMethodForm({ onBack }) {
+function PowerMethodForm({ onBack, onContinue }) {
   const [totalPower, setTotalPower] = useState('')
+  const [sunHours, setSunHours] = useState('5')
+  const [systemVoltage, setSystemVoltage] = useState('24')
+  const [systemEfficiency, setSystemEfficiency] = useState('0.8')
+  const [panelUnitPower, setPanelUnitPower] = useState('550')
+
+  const result = useMemo(() => {
+    const safePower = Math.max(toNumber(totalPower), 0)
+    const safeSunHours = Math.max(toNumber(sunHours, 5), 1)
+    const safeVoltage = Math.max(toNumber(systemVoltage, 24), 1)
+    const safeEfficiency = Math.min(Math.max(toNumber(systemEfficiency, 0.8), 0.1), 1)
+    const safePanelUnitPower = Math.max(toNumber(panelUnitPower, 550), 1)
+
+    const inverterSuggestedW = Math.ceil(safePower * 1.25)
+    const requiredPvPowerW = Math.ceil(safePower / safeEfficiency)
+    const panelCount = Math.max(Math.ceil(requiredPvPowerW / safePanelUnitPower), 1)
+    const controllerSuggestedA = Math.ceil((panelCount * safePanelUnitPower / safeVoltage) * 1.25)
+
+    return {
+      safePower,
+      inverterSuggestedW,
+      requiredPvPowerW,
+      panelCount,
+      controllerSuggestedA,
+      notes: [
+        'این روش برای زمانی مناسب است که فقط توان کل بارها را در اختیار داری.',
+        'برای نتایج دقیق‌تر، روش محاسبه بر اساس تجهیزات پیشنهاد می‌شود.',
+      ],
+    }
+  }, [totalPower, sunHours, systemVoltage, systemEfficiency, panelUnitPower])
 
   return (
     <div className="form-page">
@@ -609,12 +505,48 @@ function PowerMethodForm({ onBack }) {
           <div className="form-grid">
             <div className="field field-full">
               <label>توان کل مصرفی (وات)</label>
-              <input
-                value={totalPower}
-                onChange={(e) => setTotalPower(e.target.value)}
-                placeholder="مثلاً 5000"
-              />
+              <input value={totalPower} onChange={(e) => setTotalPower(e.target.value)} placeholder="مثلاً 5000" />
             </div>
+            <div className="field">
+              <label>ساعات آفتابی مفید</label>
+              <input value={sunHours} onChange={(e) => setSunHours(e.target.value)} placeholder="مثلاً 5" />
+            </div>
+            <div className="field">
+              <label>ولتاژ سیستم</label>
+              <select value={systemVoltage} onChange={(e) => setSystemVoltage(e.target.value)}>
+                <option value="12">12V</option>
+                <option value="24">24V</option>
+                <option value="48">48V</option>
+              </select>
+            </div>
+            <div className="field">
+              <label>راندمان سیستم</label>
+              <input value={systemEfficiency} onChange={(e) => setSystemEfficiency(e.target.value)} placeholder="مثلاً 0.8" />
+            </div>
+            <div className="field">
+              <label>توان هر پنل</label>
+              <input value={panelUnitPower} onChange={(e) => setPanelUnitPower(e.target.value)} placeholder="مثلاً 550" />
+            </div>
+          </div>
+
+          <div className="form-actions">
+            <button
+              className="primary-btn"
+              onClick={() =>
+                onContinue({
+                  cards: [
+                    { label: 'توان کل مصرفی', value: `${result.safePower} W` },
+                    { label: 'اینورتر پیشنهادی', value: `${result.inverterSuggestedW} W` },
+                    { label: 'توان PV موردنیاز', value: `${result.requiredPvPowerW} W` },
+                    { label: 'تعداد پنل', value: `${result.panelCount}` },
+                    { label: 'کنترلر پیشنهادی', value: `${result.controllerSuggestedA} A` },
+                  ],
+                  notes: result.notes,
+                })
+              }
+            >
+              محاسبه و مشاهده گزارش
+            </button>
           </div>
         </div>
       </div>
@@ -622,9 +554,27 @@ function PowerMethodForm({ onBack }) {
   )
 }
 
-function CurrentMethodForm({ onBack }) {
+function CurrentMethodForm({ onBack, onContinue }) {
   const [totalCurrent, setTotalCurrent] = useState('')
   const [systemVoltage, setSystemVoltage] = useState('220')
+
+  const result = useMemo(() => {
+    const safeCurrent = Math.max(toNumber(totalCurrent), 0)
+    const safeVoltage = Math.max(toNumber(systemVoltage, 220), 1)
+    const totalPower = Math.ceil(safeCurrent * safeVoltage)
+    const inverterSuggestedW = Math.ceil(totalPower * 1.25)
+
+    return {
+      safeCurrent,
+      safeVoltage,
+      totalPower,
+      inverterSuggestedW,
+      notes: [
+        'در این روش توان کل از حاصل‌ضرب جریان کل در ولتاژ سیستم به دست آمده است.',
+        'برای بارهای موتوری یا ترکیبی، ضریب راه‌اندازی باید جداگانه بررسی شود.',
+      ],
+    }
+  }, [totalCurrent, systemVoltage])
 
   return (
     <div className="form-page">
@@ -642,25 +592,37 @@ function CurrentMethodForm({ onBack }) {
           <div className="form-grid">
             <div className="field">
               <label>جریان کل (آمپر)</label>
-              <input
-                value={totalCurrent}
-                onChange={(e) => setTotalCurrent(e.target.value)}
-                placeholder="مثلاً 18"
-              />
+              <input value={totalCurrent} onChange={(e) => setTotalCurrent(e.target.value)} placeholder="مثلاً 18" />
             </div>
 
             <div className="field">
               <label>ولتاژ سیستم</label>
-              <select
-                value={systemVoltage}
-                onChange={(e) => setSystemVoltage(e.target.value)}
-              >
+              <select value={systemVoltage} onChange={(e) => setSystemVoltage(e.target.value)}>
                 <option value="12">12V</option>
                 <option value="24">24V</option>
                 <option value="48">48V</option>
                 <option value="220">220V</option>
               </select>
             </div>
+          </div>
+
+          <div className="form-actions">
+            <button
+              className="primary-btn"
+              onClick={() =>
+                onContinue({
+                  cards: [
+                    { label: 'جریان کل', value: `${result.safeCurrent} A` },
+                    { label: 'ولتاژ سیستم', value: `${result.safeVoltage} V` },
+                    { label: 'توان کل', value: `${result.totalPower} W` },
+                    { label: 'اینورتر پیشنهادی', value: `${result.inverterSuggestedW} W` },
+                  ],
+                  notes: result.notes,
+                })
+              }
+            >
+              محاسبه و مشاهده گزارش
+            </button>
           </div>
         </div>
       </div>
@@ -672,12 +634,12 @@ export default function App() {
   const [screen, setScreen] = useState('splash')
   const [selectedMethodKey, setSelectedMethodKey] = useState(null)
   const [equipmentReportData, setEquipmentReportData] = useState(null)
+  const [genericReportData, setGenericReportData] = useState(null)
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setScreen('entry')
     }, 2000)
-
     return () => clearTimeout(timer)
   }, [])
 
@@ -687,6 +649,7 @@ export default function App() {
   const handleMethodEnter = (methodKey) => {
     setSelectedMethodKey(methodKey)
     setEquipmentReportData(null)
+    setGenericReportData(null)
     setScreen('form')
   }
 
@@ -715,7 +678,6 @@ export default function App() {
       {screen === 'methods' && (
         <div className="methods-bg">
           <div className="methods-bg-overlay" />
-
           <div className="methods-hero">
             <div className="logo-glow" />
             <img src="/method-bg.png" alt="لوگو" className="hero-logo" />
@@ -734,13 +696,8 @@ export default function App() {
                     <div className="method-icon-wrap">
                       <div className="method-icon">{item.icon}</div>
                     </div>
-
                     <h2>{item.title}</h2>
-
-                    <button
-                      className="secondary-btn"
-                      onClick={() => handleMethodEnter(item.key)}
-                    >
+                    <button className="secondary-btn" onClick={() => handleMethodEnter(item.key)}>
                       ورود
                     </button>
                   </div>
@@ -782,6 +739,13 @@ export default function App() {
             setScreen('methods')
             setSelectedMethodKey(null)
           }}
+          onContinue={(data) => {
+            setGenericReportData({
+              title: 'گزارش نهایی محاسبه بر اساس توان کل',
+              ...data,
+            })
+            setScreen('generic-report')
+          }}
         />
       )}
 
@@ -790,6 +754,27 @@ export default function App() {
           onBack={() => {
             setScreen('methods')
             setSelectedMethodKey(null)
+          }}
+          onContinue={(data) => {
+            setGenericReportData({
+              title: 'گزارش نهایی محاسبه بر اساس جریان کل',
+              ...data,
+            })
+            setScreen('generic-report')
+          }}
+        />
+      )}
+
+      {screen === 'generic-report' && genericReportData && (
+        <GenericReportPage
+          title={genericReportData.title}
+          cards={genericReportData.cards}
+          notes={genericReportData.notes}
+          onBackToForm={() => setScreen('form')}
+          onBackToMethods={() => {
+            setScreen('methods')
+            setSelectedMethodKey(null)
+            setGenericReportData(null)
           }}
         />
       )}
